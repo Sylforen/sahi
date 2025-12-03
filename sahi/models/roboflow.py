@@ -106,10 +106,10 @@ class RoboflowDetectionModel(DetectionModel):
             assert model.task_type == "object-detection", "Roboflow model must be an object detection model."
 
         else:
-            from rfdetr.detr import RFDETRBase, RFDETRLarge, RFDETRMedium, RFDETRNano, RFDETRSmall
+            from rfdetr.detr import RFDETRBase, RFDETRLarge, RFDETRMedium, RFDETRNano, RFDETRSmall, RFDETRSegPreview
 
             model, model_path = self._model, self.model_path
-            model_names = ("RFDETRBase", "RFDETRNano", "RFDETRSmall", "RFDETRMedium", "RFDETRLarge")
+            model_names = ("RFDETRBase", "RFDETRNano", "RFDETRSmall", "RFDETRMedium", "RFDETRLarge", "RFDETRSegPreview")
             if hasattr(model, "__name__") and model.__name__ in model_names:
                 model_params = dict(
                     resolution=int(self.image_size) if self.image_size else 560,
@@ -120,7 +120,7 @@ class RoboflowDetectionModel(DetectionModel):
                     model_params["pretrain_weights"] = model_path
 
                 model = model(**model_params)
-            elif isinstance(model, (RFDETRBase, RFDETRNano, RFDETRSmall, RFDETRMedium, RFDETRLarge)):
+            elif isinstance(model, (RFDETRBase, RFDETRNano, RFDETRSmall, RFDETRMedium, RFDETRLarge, RFDETRSegPreview)):
                 model = model
             else:
                 raise ValueError(
