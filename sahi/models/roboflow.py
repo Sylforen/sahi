@@ -214,21 +214,27 @@ class RoboflowDetectionModel(DetectionModel):
                 "Length mismatch between original responses, shift amounts, and full shapes."
             )
 
+            segmentation = None
+
+
+            
             for original_detection, shift_amount, full_shape in zip(
                 original_detections,
                 shift_amount_list,
                 full_shape_list,
             ):
-                for xyxy, confidence, class_id in zip(
+                for xyxy, confidence, class_id, mask in zip(
                     original_detection.xyxy,
                     original_detection.confidence,
                     original_detection.class_id,
+                    original_detection.mask,
                 ):
                     object_prediction = ObjectPrediction(
                         bbox=xyxy,
                         category_id=int(class_id),
                         category_name=self.category_mapping.get(int(class_id), None),
                         score=float(confidence),
+                        segmentation=mask,
                         shift_amount=shift_amount,
                         full_shape=full_shape,
                     )
