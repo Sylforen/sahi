@@ -7,7 +7,7 @@ import numpy as np
 from sahi.models.base import DetectionModel
 from sahi.prediction import ObjectPrediction
 from sahi.utils.compatibility import fix_full_shape_list, fix_shift_amount_list
-
+from sahi.utils.cv import get_coco_segmentation_from_bool_mask
 
 class RoboflowDetectionModel(DetectionModel):
     def __init__(
@@ -214,10 +214,6 @@ class RoboflowDetectionModel(DetectionModel):
                 "Length mismatch between original responses, shift amounts, and full shapes."
             )
 
-            segmentation = None
-
-
-            
             for original_detection, shift_amount, full_shape in zip(
                 original_detections,
                 shift_amount_list,
@@ -234,9 +230,9 @@ class RoboflowDetectionModel(DetectionModel):
                         category_id=int(class_id),
                         category_name=self.category_mapping.get(int(class_id), None),
                         score=float(confidence),
-                        segmentation=mask,
                         shift_amount=shift_amount,
                         full_shape=full_shape,
+                        segmentation=get_coco_segmentation_from_bool_mask(mask)
                     )
                     object_prediction_list.append(object_prediction)
 
