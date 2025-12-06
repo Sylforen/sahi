@@ -194,7 +194,7 @@ class PredictionResult:
             object_prediction_list=self.object_prediction_list,
             rect_th=rect_th,
             text_size=text_size,
-            text_th=None,
+            text_th=0,
             color=None,
             hide_labels=hide_labels,
             hide_conf=hide_conf,
